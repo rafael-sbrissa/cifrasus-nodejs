@@ -6,6 +6,11 @@ module.exports = function(app) {
         res.send(url);
     });
 
+    app.get('/', function(req, res) {
+        console.log("Chegou");
+        res.send('chegou');
+    });
+
     app.post("/v1/cipherjson/", function(req, res) {
         var body = req.body;
         var url = body.url;
