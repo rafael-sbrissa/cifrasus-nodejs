@@ -22,8 +22,8 @@ module.exports = function(app) {
                 console.log(data);
                 if (data.includes('<div class="g-side-ad">')) { //Cifra club
                     var cb = new app.classes.trataCifraClub(data);
-                    console.log('cifraclub.com.br');
-                    cb.getCifraHtml();
+                    cb.getCifraHtml(data);
+                    //res.json(cb.getCifraHtml(data));
                 } else if (data.includes('<div class="coremain">')) { //Cifras
                     console.log('cifras.com.br');
                 } else {
