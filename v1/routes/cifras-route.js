@@ -1,17 +1,25 @@
 module.exports = function(app) {
 
+    var cifraClubController = require('../controllers/cifraClubController');
+
     app.get("/v1/cipherjson/:url", function(req, res) {
         var url = req.params.url;
         console.log(url);
         res.send(url);
     });
 
+<<<<<<< HEAD:controllers/cipherJson.js
     app.get('/', function(req, res) {
         console.log("Chegou");
         res.send('chegou');
     });
 
     app.post("/v1/cipherjson/", function(req, res) {
+=======
+    app.post('/v1/cipherjson/', cifraClubController.getJson(req, res));
+
+    /*app.post("/v1/cipherjson/", function(req, res) {
+>>>>>>> umbler/master:v1/routes/cifras-route.js
         var body = req.body;
         var url = body.url;
         var https = require('https');
@@ -47,5 +55,5 @@ module.exports = function(app) {
         request.end();
         console.log(pag);
 
-    });
+    });*/
 };

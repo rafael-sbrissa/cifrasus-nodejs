@@ -13,9 +13,11 @@ module.exports = function() {
     app.use(expressValidator());
 
     consign()
-        .include('controllers')
+        .include('v1/controllers')
         .then('db')
-        .then('classes')
+        .then('v1/classes')
+        .then('v1/models')
+        .then('v1/routes')
         .into(app);
 
     return app;
