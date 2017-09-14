@@ -16,7 +16,6 @@ module.exports = function() {
         .include('v1/controllers')
         .then('db')
         .then('v1/classes')
-        .then('v1/models')
         .into(app);
 
     return app;
