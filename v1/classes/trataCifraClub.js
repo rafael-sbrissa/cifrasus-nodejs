@@ -2,11 +2,11 @@ function trataCifraClub() {}
 
 trataCifraClub.prototype.getCifraHtml = function(data) {
     var cifra = {};
-    //console.log(_getCapo(data));
     cifra.artist = _getArtist(data);
     cifra.title = _getTitle(data);
     cifra.tone = _getTone(data);
     cifra.capo = _getCapo(data);
+    cifra.intro = _getIntro(data);
     cifra.phrases = [{}];
 
     console.log(cifra);
@@ -47,7 +47,7 @@ function _getTitle(data) {
 }
 
 function _getTone(data) {
-    var reg_exp_tone = /<span id="cifra_tom".*?>\s+?Tom:\s+?<a .*?>(.*?)<\/a>(\s+?\(.*?\)\s+?)?<\/span>/g;
+    var reg_exp_tone = /<span id="cifra_tom".*?>\s+?Tom:\s+?<a .*?>(.*?)<\/a>(\s+?\(.*?\)\s+?)?<\/span>/gi;
     resultados = reg_exp_tone.exec(String(data));
     resultado = '';
     if (resultados != null) {
@@ -78,14 +78,32 @@ function _getChords(data) {
 }
 
 function _getIntro(data) {
+    var reg_exp_intro = /<pre>[\s+]*(\[|\()?intro[:]?(\]|\))?([\s+]*(<b>.*?<\/b>))*[\n]{2}?/gi;
+    var reg_exp_chords = /<b>(\b([A-G]{1}[#mbM\d+]*(sus)?\d?)(\/[A-G]{1}[#bmM\d+]*(sus)?\d?)*)<\/b>/gm;
+    let m;
 
+    resultados = reg_exp_intro.exec(String(data));
+    //resultado = resultados[0] != undefined ? resultados[0].replace("<pre>", '').replace(/(\[|\()?intro[:]?(\]|\))?[\s+]*/gi, '').replace(/<[/]?b>/g, '').trim() : null;
+    resultado = resultados[0] != undefined ? resultados[0] : null;
+    resultados_chord = reg_exp_chords.exec(String(resultado));
+
+    while ((m = reg_exp_chords.exec(resultado)) !== null) {
+        if (m.index === reg_exp_chords.lastIndex) {
+            reg_exp_chords.lastIndex++;
+        }
+
+        console.log(m[1]);
+    }
+
+
+    //resultados_chord.forEach(_retornaValor);
+    return resultado != null ? resultado : null;
 }
 
 function _getCapo(data) {
     var reg_exp_capo = /<span id="cifra_capo".*?>[\s+?]?(.*?)<a.*?>(.*?)<\/a><\/span>/g;
     resultados = reg_exp_capo.exec(String(data));
     resultado = '';
-    //resultados.forEach(_retornaValor);
     if (resultados != null) {
         if (resultados[1] != undefined && resultados[2] != undefined) {
             resultado = resultados[1].trim() + " " + resultados[2].trim();
