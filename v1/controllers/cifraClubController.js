@@ -22,20 +22,22 @@ module.exports = function(app) {
                 data += chunk;
             });
             resp.on('end', function() {
-                //console.log(data);
                 if (data.includes('<div class="g-side-ad">')) { //Cifra club
                     var cb = new app.v1.classes.trataCifraClub();
-                    //console.log('cifraclub.com.br');
                     res.json(cb.getCifraHtml(data));
                 } else if (data.includes('<div class="coremain">')) { //Cifras
                     console.log('cifras.com.br');
                 } else {
-                    console.log('Não achamos nenhuma cifra nesse site ¯\_(ツ)_/¯');
-                    res.send('Não achamos nenhuma cifra nesse site ¯\_(ツ)_/¯');
-                    return;
+                    error_var = {};
+                    console.log('Não achamos nenhuma cifra!');
+                    res.status(404);
+                    error_var.message = 'Não achamos nenhuma cifra!';
+                    console.log(error_var);
+                    res.json(error_var);
+                    request.end();
                 }
                 //res.send(data);
-                res.status(200);
+                //res.status(200);
             });
         });
         request.on('error', function(e) {
